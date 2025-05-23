@@ -101,3 +101,15 @@ section {
         color: #ad0000;
     }
 }
+
+.posted-todos-container {
+    display: grid;
+    grid-template-columns: repeat(3, 300px);
+    grid-gap: 20px;
+}
+
+.todo-container {
+    padding: 8px;
+    border: 1px solid #000;
+    border-radius: 4px;
+}
