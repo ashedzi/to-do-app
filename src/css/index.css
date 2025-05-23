@@ -56,3 +56,24 @@ input[type=text] {
     border-radius: 3px;
     border: 1px solid #000;
 }
+
+button {
+    padding: 8px;
+    background-color: #8494;
+    border-radius: 3px;
+    margin-left: 8px;
+}
+
+main {
+    /* height: 100dvh; */
+    display: grid;
+    place-content: center;
+}
+
+main {
+    margin-top: 200px;
+}
+
+section {
+    margin-top: 80px;
+}
