@@ -77,3 +77,27 @@ main {
 section {
     margin-top: 80px;
 }
+
+.checked, .edit, .delete {
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: #454545;
+} 
+
+.checked {
+    &:hover {
+        color: #00781c;
+    }
+}
+
+.edit {
+    &:hover {
+        color: #e5bb00;
+    }
+}
+
+.delete {
+    &:hover {
+        color: #ad0000;
+    }
+}
