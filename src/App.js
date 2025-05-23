@@ -21,6 +21,26 @@ function App() {
     }
   };
 
+const deleteTask = (id) => {
+  const updated = tasks.filter(task => task.id !== id);
+  setTasks(updated);
+};
+
+const toggleComplete = (id) => {
+  const updated = tasks.map(task =>
+    task.id === id ? {...task, completed: !task.completed}
+ : task);
+ setTasks(updated);
+}
+
+const editTask = (id, newName) => {
+  const updated = tasks.map(task => 
+    task.id === id ? {...task, name: newName, date: new Date().toDateString()} : task
+  );
+  setTasks(updated);
+  setEditingId(null);
+};
+
   return (
     <main className="container">
       <h2>Remynd App</h2>
