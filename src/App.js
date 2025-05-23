@@ -7,6 +7,13 @@ function App() {
   const date = new Date().toDateString();
   const [tasks, setTasks] = useState([]);
   const [editingId, setEditingId ] = useState(null);
+  const [inputValue, setInputValue] = useState('');
+
+  const startEditing = (id) => {
+    const taskToEdit = tasks.find(task => task.id === id);
+    setEditingId(id);
+    setInputValue(taskToEdit.name);
+  }
 
   const addTask = (taskName) => {
     if (taskName.trim() !== "") {
@@ -43,11 +50,20 @@ const editTask = (id, newName) => {
   return (
     <main className="container">
       <h2>Remynd App</h2>
-      <ToDoForm addTask={addTask} />
+      <ToDoForm 
+        addTask={addTask}
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        editingId={editingId}
+        editTask={editTask} 
+      />
       <ToDos 
         tasks={tasks} 
         deleteTask={deleteTask} 
         toggleComplete={toggleComplete} 
+        editTask={editTask}
+        editingId={editingId}
+        setEditingId={startEditing}
       />
     </main>
   );

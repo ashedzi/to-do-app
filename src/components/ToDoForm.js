@@ -1,15 +1,19 @@
 import { useRef, useEffect, useState } from "react";
 
-function ToDoForm({addTask}) {
+function ToDoForm({addTask, inputValue, setInputValue, editingId, editTask}) {
     const[taskInput, setTaskInput] =  useState("");
 
     function handleInputChange(event) {
-        setTaskInput(event.target.value);
+        setInputValue(event.target.value);
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        addTask(taskInput);
+        if (editingId) {
+            editTask(editingId, inputValue);
+        } else {
+            addTask(inputValue);
+        }
         setTaskInput("");
     };
 
@@ -18,13 +22,13 @@ function ToDoForm({addTask}) {
             <input 
                 type='text' 
                 placeholder="Enter Task" 
-                value={taskInput} 
+                value={inputValue} 
                 onChange={handleInputChange}
                 className='input'
                 required
                 autoFocus
             />
-            <button type='submit'>Add Task</button>
+            <button type='submit'>{editingId ? "Update Task" : "Add Task"}</button>
         </form>
     );
 }

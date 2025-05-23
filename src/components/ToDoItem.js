@@ -1,7 +1,7 @@
 import Icons from "./Icons";
 import { useRef, useEffect, useState } from "react";
 
-function ToDoItem({task, deleteTask, toggleComplete, editTask, isEditing, setEditingId}) {
+function ToDoItem({task, deleteTask, toggleComplete, setEditingId}) {
     const inputRef = useRef();
 
     const handleEditSave = () => {
@@ -18,17 +18,11 @@ function ToDoItem({task, deleteTask, toggleComplete, editTask, isEditing, setEdi
             <div className=" flex column gap-20">
                 <div className="flex gap-10 align-center">
                     <input type='checkbox' checked={task.completed} onChange={() => toggleComplete(task.id)}/>
-                    {/* <h3 className={task.completed ? "completed" : ""}>{task.name}</h3> */}
-                    {isEditing ? ( <input
-                        ref={inputRef}
-                        defaultValue={task.name}
-                        onKeyDown={(e) => e.key === "Enter" && handleEditSave()}
-                        autoFocus
-                    /> ) : ( <h3 className={task.completed ? "completed" : ""}>{task.name}</h3>)}
-                </div>
+                    <h3 className={task.completed ? "completed" : ""}>{task.name}</h3>
+                 </div>
                 <div className="flex space-between">
                     <p>{task.date}</p>
-                    <Icons onDelete={() => deleteTask(task.id)} onEdit={() => isEditing ? handleEditSave() : setEditingId(task.id)}/>
+                    <Icons onDelete={() => deleteTask(task.id)} onEdit={() => setEditingId(task.id)}/>
                 </div>
             </div>
         </div>
