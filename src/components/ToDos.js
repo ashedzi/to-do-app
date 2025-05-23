@@ -9,6 +9,8 @@ function ToDos({tasks, deleteTask, toggleComplete}) {
                     key={task.id}
                     task={task}
                     deleteTask={deleteTask}
+                    editTask={editTask}
+                    editingId={editingId}
                     toggleComplete={toggleComplete}
                 />
             )}
