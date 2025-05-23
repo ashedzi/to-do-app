@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import ToDoItem from "./ToDoItem";
 
-function ToDos({tasks, deleteTask, toggleComplete}) {
+function ToDos({tasks, deleteTask, toggleComplete, editTask, editingId, setEditingId}) {
     return(
         <section className="posted-todos-container flex center">
             {tasks.map((task) => 
@@ -10,7 +10,8 @@ function ToDos({tasks, deleteTask, toggleComplete}) {
                     task={task}
                     deleteTask={deleteTask}
                     editTask={editTask}
-                    editingId={editingId}
+                    editingId={editingId === task.id}
+                    setEditingId={setEditingId}
                     toggleComplete={toggleComplete}
                 />
             )}
