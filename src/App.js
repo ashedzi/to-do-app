@@ -9,9 +9,12 @@ const initialState = {
   inputValue: "",
 };
 
+// Using the Reducer function to manage all task-related state changes
 function reducer(state, action) {
   switch (action.type) {
-    case "ADD_TASK":
+    case 'ADD_TASK':
+//'payload' is the data sent with the action — in this case, it's the task name as a string.
+// We check if it's empty or only whitespace using .trim(); if it is, we return the state unchanged to avoid adding an invalid task.
       if (!action.payload.trim()) return state;
       const newTask = {
         id: Date.now(),
@@ -19,15 +22,17 @@ function reducer(state, action) {
         completed: false,
         date: new Date().toDateString(),
       };
+      //I used the spread operator to copy the existing state and update the tasks array with the new task at the beginning.
       return { ...state, tasks: [newTask, ...state.tasks] };
 
-    case "DELETE_TASK":
+    // payload here is used to get the ID of task to delete
+    case 'DELETE_TASK':
       return {
         ...state,
         tasks: state.tasks.filter((task) => task.id !== action.payload),
       };
-
-    case "TOGGLE_COMPLETE":
+    // payload here is used to get the ID of task to toggle
+    case 'TOGGLE_COMPLETE':
       return {
         ...state,
         tasks: state.tasks.map((task) =>
@@ -35,7 +40,7 @@ function reducer(state, action) {
         ),
       };
 
-    case "START_EDITING":
+    case 'START_EDITING':
       const taskToEdit = state.tasks.find((t) => t.id === action.payload);
       return {
         ...state,
@@ -43,7 +48,7 @@ function reducer(state, action) {
         inputValue: taskToEdit ? taskToEdit.name : "",
       };
 
-    case "EDIT_TASK":
+    case 'EDIT_TASK':
       return {
         ...state,
         tasks: state.tasks.map((task) =>
@@ -55,10 +60,10 @@ function reducer(state, action) {
         inputValue: "",
       };
 
-    case "UPDATE_INPUT":
+    case 'UPDATE_INPUT':
       return { ...state, inputValue: action.payload };
 
-    case "RESET_INPUT":
+    case 'RESET_INPUT':
       return { ...state, inputValue: "", editingId: null };
 
     default:
@@ -69,6 +74,8 @@ function reducer(state, action) {
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+// This is a side effect that happens every time state.tasks changes
+// in this case i use useEffect to persist tasks to localStorage
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(state.tasks));
   }, [state.tasks]);
