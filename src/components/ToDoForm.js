@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 
 function ToDoForm({addTask, inputValue, setInputValue, editingId, editTask, setEditingId, tasks}) {
-    const[taskInput, setTaskInput] =  useState("");
 
-        useEffect(() => {
+    useEffect(() => {
         if (editingId) {
             const taskToEdit = tasks.find(task => task.id === editingId);
             if (taskToEdit) {
