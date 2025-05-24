@@ -1,6 +1,6 @@
 import ToDoItem from "./ToDoItem";
 
-function ToDos({tasks, deleteTask, toggleComplete, editTask, editingId, setEditingId}) {
+function ToDos({tasks, deleteTask, toggleComplete, setEditingId}) {
     return(
         <section className="posted-todos-container flex center">
             {tasks.map((task) => 
@@ -8,8 +8,6 @@ function ToDos({tasks, deleteTask, toggleComplete, editTask, editingId, setEditi
                     key={task.id}
                     task={task}
                     deleteTask={deleteTask}
-                    editTask={editTask}
-                    editingId={editingId === task.id}
                     setEditingId={setEditingId}
                     toggleComplete={toggleComplete}
                 />

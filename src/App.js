@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 
 
 function App() {
-  const date = new Date().toDateString();
-
   const [tasks, setTasks] = useState(() => {
     const savedTasks = localStorage.getItem("tasks");
     return savedTasks ? JSON.parse(savedTasks) : [];
