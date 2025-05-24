@@ -5,6 +5,29 @@
     margin-inline: auto;
 }
 
+:root {
+    --background-color: linear-gradient(135deg, #141e30, #243b55);
+    --cards-color: #efeff0;
+    --button-color: #048ad8;
+    --on-primary-color: #fff;
+    --cards-color-two: rgb(255 255 255 / 5%)
+}
+
+body {
+    min-height: auto;
+    background: var(--background-color);
+    height: 100dvh;
+}
+
+main {
+    display: grid;
+    place-content: center;
+    margin-top: 200px;
+}
+
+section {
+    margin-top: 80px;
+}
 
 .flex {
     display: flex;
@@ -44,50 +67,46 @@ h2 {
     font-weight: 700;
     font-size: 3rem;
     margin-bottom: 24px;
+    color: #fff;
 }
 
 p {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
 }
 
 input[type=text] {
     padding: 8px;
-    width: 400px;
+    width: 300px;
     border-radius: 3px;
-    border: 1px solid #000;
+    border: 2px solid #454545;
+
+    &:focus {
+        border: 2px solid #00cfff;
+        box-shadow: 0 0 1px 1px #00cfff;
+        transition: all;
+    }
 }
 
 input[type=checkbox] {
     width: 1.6rem;
     height: 1.6rem;
+    accent-color: rgb(0 168 107);
 }
-
 
 button {
-    padding: 8px;
-    background-color: #8494;
+    padding: 9px 24px;
     border-radius: 3px;
     margin-left: 8px;
-}
-
-main {
-    /* height: 100dvh; */
-    display: grid;
-    place-content: center;
-}
-
-main {
-    margin-top: 200px;
-}
-
-section {
-    margin-top: 80px;
+    font-weight: 600;
+    width: 114px;
+    background-color: var(--button-color);
+    color: var(--on-primary-color);
 }
 
 .checked, .edit, .delete {
     font-size: 1.6rem;
     cursor: pointer;
-    color: #454545;
+    color: #e1f5f9;
 } 
 
 .checked {
@@ -116,6 +135,20 @@ section {
 
 .todo-container {
     padding: 8px;
-    border: 1px solid #000;
+    border: 1px solid var(--cards-color-two);
+    background: var(--cards-color-two);
     border-radius: 4px;
+
+    h3 {
+        color: #048ad8;
+    }
+
+    p {
+        color: #fff;
+    }
+}
+
+.completed {
+    text-decoration: line-through;
+    color: rgb(0 168 107);
 }

@@ -1,17 +1,6 @@
 import Icons from "./Icons";
-import { useRef, useEffect, useState } from "react";
 
 function ToDoItem({task, deleteTask, toggleComplete, setEditingId}) {
-    const inputRef = useRef();
-
-    const handleEditSave = () => {
-        const newName = inputRef.current.value;
-
-        if(newName.trim() !== "") {
-            editTask(task.id, newName);
-        }
-    };
-
     return(
         <div className="todo-container">
             <div className="done-indicator"></div>

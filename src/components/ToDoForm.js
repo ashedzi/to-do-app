@@ -1,7 +1,16 @@
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-function ToDoForm({addTask, inputValue, setInputValue, editingId, editTask}) {
+function ToDoForm({addTask, inputValue, setInputValue, editingId, editTask, setEditingId, tasks}) {
     const[taskInput, setTaskInput] =  useState("");
+
+        useEffect(() => {
+        if (editingId) {
+            const taskToEdit = tasks.find(task => task.id === editingId);
+            if (taskToEdit) {
+                setInputValue(taskToEdit.name);
+            }
+        }
+    }, [editingId, tasks, setInputValue]);
 
     function handleInputChange(event) {
         setInputValue(event.target.value);
@@ -9,26 +18,32 @@ function ToDoForm({addTask, inputValue, setInputValue, editingId, editTask}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (inputValue.trim() === '')
+            return;
+
+
         if (editingId) {
             editTask(editingId, inputValue);
+            setEditingId(null);
         } else {
             addTask(inputValue);
         }
-        setTaskInput("");
+        setInputValue("");
     };
 
     return(
         <form className="flex form-container center" onSubmit={handleSubmit}>
             <input 
                 type='text' 
-                placeholder="Enter Task" 
+                id='task-input'
+                placeholder="" 
                 value={inputValue} 
                 onChange={handleInputChange}
                 className='input'
                 required
                 autoFocus
             />
-            <button type='submit'>{editingId ? "Update Task" : "Add Task"}</button>
+            <button type='submit'>{editingId ? "Update" : "Add Task"}</button>
         </form>
     );
 }

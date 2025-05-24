@@ -1,13 +1,22 @@
 import ToDoForm from "./components/ToDoForm";
 import ToDos from "./components/ToDos";
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 
 function App() {
   const date = new Date().toDateString();
-  const [tasks, setTasks] = useState([]);
-  const [editingId, setEditingId ] = useState(null);
-  const [inputValue, setInputValue] = useState('');
+
+  const [tasks, setTasks] = useState(() => {
+    const savedTasks = localStorage.getItem("tasks");
+    return savedTasks ? JSON.parse(savedTasks) : [];
+  });
+
+  const [editingId, setEditingId] = useState(null);
+  const [inputValue, setInputValue] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   const startEditing = (id) => {
     const taskToEdit = tasks.find(task => task.id === id);
@@ -23,7 +32,7 @@ function App() {
         completed: false,
         date: new Date().toDateString()
       };
-      setTasks(prev => [...prev, newTask]);
+      setTasks(prev => [newTask, ...prev]);
     }
   };
 
@@ -51,9 +60,11 @@ const editTask = (id, newName) => {
     <main className="container">
       <h2>Remynd App</h2>
       <ToDoForm 
+        tasks={tasks}
         addTask={addTask}
         inputValue={inputValue}
         setInputValue={setInputValue}
+        setEditingId={setEditingId}
         editingId={editingId}
         editTask={editTask} 
       />
