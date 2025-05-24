@@ -1,78 +1,91 @@
 import ToDoForm from "./components/ToDoForm";
 import ToDos from "./components/ToDos";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useReducer } from "react";
 
 
-function App() {
-  const [tasks, setTasks] = useState(() => {
-    const savedTasks = localStorage.getItem("tasks");
-    return savedTasks ? JSON.parse(savedTasks) : [];
-  });
+const initialState = {
+  tasks: JSON.parse(localStorage.getItem("tasks")) || [],
+  editingId: null,
+  inputValue: "",
+};
 
-  const [editingId, setEditingId] = useState(null);
-  const [inputValue, setInputValue] = useState("");
-
-  useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
-
-  const startEditing = (id) => {
-    const taskToEdit = tasks.find(task => task.id === id);
-    setEditingId(id);
-    setInputValue(taskToEdit.name);
-  }
-
-  const addTask = (taskName) => {
-    if (taskName.trim() !== "") {
+function reducer(state, action) {
+  switch (action.type) {
+    case "ADD_TASK":
+      if (!action.payload.trim()) return state;
       const newTask = {
         id: Date.now(),
-        name: taskName,
+        name: action.payload,
         completed: false,
-        date: new Date().toDateString()
+        date: new Date().toDateString(),
       };
-      setTasks(prev => [newTask, ...prev]);
-    }
-  };
+      return { ...state, tasks: [newTask, ...state.tasks] };
 
-const deleteTask = (id) => {
-  const updated = tasks.filter(task => task.id !== id);
-  setTasks(updated);
-};
+    case "DELETE_TASK":
+      return {
+        ...state,
+        tasks: state.tasks.filter((task) => task.id !== action.payload),
+      };
 
-const toggleComplete = (id) => {
-  const updated = tasks.map(task =>
-    task.id === id ? {...task, completed: !task.completed}
- : task);
- setTasks(updated);
+    case "TOGGLE_COMPLETE":
+      return {
+        ...state,
+        tasks: state.tasks.map((task) =>
+          task.id === action.payload ? { ...task, completed: !task.completed } : task
+        ),
+      };
+
+    case "START_EDITING":
+      const taskToEdit = state.tasks.find((t) => t.id === action.payload);
+      return {
+        ...state,
+        editingId: action.payload,
+        inputValue: taskToEdit ? taskToEdit.name : "",
+      };
+
+    case "EDIT_TASK":
+      return {
+        ...state,
+        tasks: state.tasks.map((task) =>
+          task.id === action.payload.id
+            ? { ...task, name: action.payload.name, date: new Date().toDateString() }
+            : task
+        ),
+        editingId: null,
+        inputValue: "",
+      };
+
+    case "UPDATE_INPUT":
+      return { ...state, inputValue: action.payload };
+
+    case "RESET_INPUT":
+      return { ...state, inputValue: "", editingId: null };
+
+    default:
+      return state;
+  }
 }
 
-const editTask = (id, newName) => {
-  const updated = tasks.map(task => 
-    task.id === id ? {...task, name: newName, date: new Date().toDateString()} : task
-  );
-  setTasks(updated);
-  setEditingId(null);
-};
+function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(state.tasks));
+  }, [state.tasks]);
 
   return (
     <main className="container">
       <h2>Remynd App</h2>
-      <ToDoForm 
-        tasks={tasks}
-        addTask={addTask}
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        setEditingId={setEditingId}
-        editingId={editingId}
-        editTask={editTask} 
+      <ToDoForm
+        tasks={state.tasks}
+        inputValue={state.inputValue}
+        editingId={state.editingId}
+        dispatch={dispatch}
       />
-      <ToDos 
-        tasks={tasks} 
-        deleteTask={deleteTask} 
-        toggleComplete={toggleComplete} 
-        editTask={editTask}
-        editingId={editingId}
-        setEditingId={startEditing}
+      <ToDos
+        tasks={state.tasks}
+        editingId={state.editingId}
+        dispatch={dispatch}
       />
     </main>
   );
