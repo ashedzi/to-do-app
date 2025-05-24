@@ -36,10 +36,11 @@ function ToDoForm({addTask, inputValue, setInputValue, editingId, editTask, setE
             <input 
                 type='text' 
                 id='task-input'
-                placeholder="" 
+                placeholder="Enter Task" 
                 value={inputValue} 
                 onChange={handleInputChange}
-                className='input'
+                className={`input ${editingId? "input-focused" : ""}`}
+                maxLength={30}
                 required
                 autoFocus
             />

@@ -78,19 +78,26 @@ input[type=text] {
     padding: 8px;
     width: 300px;
     border-radius: 3px;
-    border: 2px solid #454545;
+    border: 2px solid transparent;
 
     &:focus {
         border: 2px solid #00cfff;
-        box-shadow: 0 0 1px 1px #00cfff;
+        box-shadow: 0 0 5px 1px #00cfff;
         transition: all;
     }
+}
+
+.input-focused {
+    border: 2px solid #00cfff;
+    box-shadow: 0 0 5px 1px #00cfff;
+    transition: all;
 }
 
 input[type=checkbox] {
     width: 1.6rem;
     height: 1.6rem;
     accent-color: rgb(0 168 107);
+    cursor: pointer;
 }
 
 button {
@@ -101,6 +108,11 @@ button {
     width: 114px;
     background-color: var(--button-color);
     color: var(--on-primary-color);
+
+    &:hover {
+        background-color: #025687;
+        transition: background-color 0.25s ease-in-out;
+    }
 }
 
 .checked, .edit, .delete {
@@ -111,7 +123,7 @@ button {
 
 .checked {
     &:hover {
-        color: #00781c;
+        color: #00a426;
     }
 }
 
@@ -140,11 +152,11 @@ button {
     border-radius: 4px;
 
     h3 {
-        color: #048ad8;
+        color: var(--button-color);
     }
 
     p {
-        color: #fff;
+        color: #a6a6a6;
     }
 }
 
